@@ -17,7 +17,6 @@ $_SESSION['password'] = $dbPass;
 $_SESSION['db_name'] = $dbName;
 
 $conn = mysqli_connect($dbHost,$dbUser,$dbPass,$dbName);
-//$GLOBALS['conn'] = $conn;
 // Check connection
 if (mysqli_connect_errno())
 {

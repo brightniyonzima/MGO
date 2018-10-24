@@ -47,7 +47,7 @@
             <div class="col-sm-2">
             </div>
             <div class="col-sm-4" style="margin-top: 50px;">
-                <form action="process_users.php?action=add_user" method="post" style="width: 100%">
+                <form action="process_user_registration.php" method="post" style="width: 100%">
                 <div class="rowElem">
                    <div class="label">
                         <label>First Name: </label>

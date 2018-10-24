@@ -1,19 +1,5 @@
 <?php
-session_start();
-$action = $_GET['action'];
-
-switch ($action) {
-	case 'add_user':
-		add_user();
-		break;
-	
-	default:
-		# code...
-		break;
-}
-
-// inserts new users in the database	
-function add_user() {
+    include 'config.php';
     $fname = $_POST['first_name'];
     $sname = $_POST['last_name'];
     $user_name = $_POST['user_name'];
@@ -22,7 +8,6 @@ function add_user() {
     $user_group = $_POST['user_group'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
-    //$conn = mysqli_connect('localhost','root','root@1','mgo');
 
     //compare passwords
     $errflag = false;
@@ -67,39 +52,33 @@ function add_user() {
             "Last_Name" => $sname,
             "User_Name" => $user_name,
             "Password" => md5($password),
+            "Position" => 0,
             "User_Group_Id" => $user_group,
             "Mobile_Number" => $phone,
             "Email" => $email,
             "Active" => 1
         );
         $message = "new user has been added";
-        $result = db_row_insert("users", $form_data, $conn);
-        //redirect($message, "/registration.php");
-        header("location:javascript://history.go(-1)");
+        $table_name = "users";
+
+        $fields = array_keys($form_data);
+        // building the query
+        $sql = "INSERT INTO " . $table_name . " (`" . implode('`,`', $fields) . "`) VALUES('" . implode("','", $form_data) . "')";
+        if ($conn->query($sql) === TRUE) {
+            $message = "new user has been added";
+            $url = '../students-site/registration.php';
+        } else {
+            echo "Error: ";
+        }
+        // run and return the query result
+        $conn->close();
+
+        /* redirection on success */
+        ?>
+        <script type="text/javascript">
+            alert('<?php echo $message; ?>');
+            window.location = "<?php echo $url; ?>";
+        </script>
+        <?php
     }
-}
-
-//Call this function when u need to do a javascript redirect and also display a message eg after submitting results 
-function redirect($message, $url) {
-    ?>
-    <script type="text/javascript">
-        alert('<?php echo $message; ?>');
-        window.location = "<?php echo $url; ?>";
-    </script>
-    <?php
-}
-
-function db_row_insert($table_name, $form_data,$conn) {
-    $fields = array_keys($form_data);
-    // building the query
-    $sql = "INSERT INTO " . $table_name . " (`" . implode('`,`', $fields) . "`) VALUES('" . implode("','", $form_data) . "')";
-	if ($conn->query($sql) === TRUE) {
-	    echo "New record created successfully";
-	} else {
-	    echo "Error: ";
-	}
-    // run and return the query result
-    $conn->close();
-}
-
 ?>

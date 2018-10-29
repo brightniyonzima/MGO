@@ -1,7 +1,6 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Login</title>
+<title>Add user group</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="css/reset.css" type="text/css" media="all">
 <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
@@ -25,12 +24,12 @@
 <script src="boostrap/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <!-- end of boostrap -->
 </head>
-<body id="page7">
+<body id="page6">
 <!-- START PAGE SOURCE -->
 <div class="wrap">
     <header>
-        <div class="container" style="text-align: center;">
-            <h1><a href="#">Student's site</a></h1>
+        <div class="container">
+            <h1><a href="#">MUST Grants Office</a></h1>
             <nav>
                 <ul>
                   <li><a href="index.html" class="m1">Home</a></li>
@@ -45,36 +44,57 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-4">
-                <!-- <a href="registration.php">register new user</a> -->
+            <div class="col-sm-2">
             </div>
             <div class="col-sm-4" style="margin-top: 50px;">
-                <form action="process_login.php" method="post">
-                    <div class="rowElem">
-                       <div class="label">
-                            <label>Username : </label>
-                        </div>
-                       <div>
-                           <input type="text" name="user_name" class="form-control">
-                       </div>
-                    </div>
 
-                    <div class="rowElem">
-                        <div class="label">
-                            <label>Password : </label>
-                        </div>
-                        <div>
-                            <input type="password" name="password" class="form-control">
-                        </div>
-                    </div>
+                <?php include 'config.php'; ?>
 
-                    <div class="rowElem">
-                        <br>
-                        <input type="submit" name="" value="Login" class="btn btn-success btn-sm">
+                <form action="process_user_group.php" method="post" style="width: 100%">
+                <div class="rowElem">
+                   <div class="label">
+                        <label>User group: </label>
                     </div>
-                </form>
+                   <div>
+                       <input type="text" name="group_name" class="form-control">
+                   </div>
+                </div>
             </div>
-            <div class="col-sm-4"></div>
+
+            <div class="col-sm-4" style="margin-top: 50px;">
+                <h5 class="heading" for="group_name">Add User Group Permissions</h5>
+                Tick the different areas of the system you want users who will be assigned to this group to access <br/>
+                <?php
+                    $query = "select * from permission_category";
+                    $results = $conn->query($query);
+                    if (!$results) {
+                        echo "Sorry access to the database failed with error :" . mysql_error();
+                    } else {
+                        while ($row = mysqli_fetch_assoc($results)) {
+                            $results2 = $conn->query("select * from permissions where Permission_Category_Id='".$row['Category_Id'] . "'");
+                            if(!$results2) {
+                                echo "Sorry access to the database failed with error :";
+                            } else {
+                                echo "<div class='span2'><br />";
+                                echo "<h5 class='heading'>".$row['Category_Name'] . "</h5>";
+                                echo '<hr class="separator" />';
+
+                                while ($row2 = mysqli_fetch_assoc($results2)) {
+                                    echo "<input  type='checkbox' name='".str_replace(' ', '_', $row['Category_Name'])."[]'value='".$row2['Permission_Name']."'>".$row2['Permission_Name']."<br />";
+                                }
+                                echo "</div>";
+                            }
+                        }
+                    }
+                ?>
+
+                <div class="rowElem">
+                    <br>
+                    <input type="submit" name="" value="Save" class="btn btn-success btn-sm">
+                </div>
+            </div>
+            </form>
+            <div class="col-sm-2"></div>
         </div>
     </div>
 </div>
@@ -88,3 +108,11 @@
 <!-- END PAGE SOURCE -->
 </body>
 </html>
+
+
+
+
+
+
+
+

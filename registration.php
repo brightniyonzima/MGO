@@ -28,8 +28,8 @@
 <!-- START PAGE SOURCE -->
 <div class="wrap">
     <header>
-        <div class="container" style="text-align: center;">
-            <h1><a href="#">Student's site</a></h1>
+        <div class="container">
+            <h1><a href="#">MUST Grants Office</a></h1>
             <nav>
                 <ul>
                   <li><a href="index.html" class="m1">Home</a></li>
@@ -76,12 +76,12 @@
                 </div>
 
                 <div class="rowElem">
-                   <div class="label">
+                    <div class="label">
                         <label>Contact: </label>
                     </div>
-                   <div>
+                    <div>
                        <input type="text" name="phone" class="form-control">
-                   </div>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-4" style="margin-top: 50px;">
